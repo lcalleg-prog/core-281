@@ -6,7 +6,7 @@ class LoginPage extends StatelessWidget {
     // 1. Usa LayoutBuilder para obtener el ancho disponible
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inicio de Sesión'),
+        title: Text('CORE'),
         // Opcional: Centrar el título
         centerTitle: true,
       ),
@@ -61,22 +61,41 @@ class LoginPage extends StatelessWidget {
                   ),
                   SizedBox(height: 32),
                   
-                  // Botón de "Regístrate"
+                  // Botón de "iniciar sesion"
                   ElevatedButton(
                     onPressed: () {
-                      print('Botón de "Regístrate" presionado');
+                      print('Botón de "iniciar sesion" presionado');
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       // Puedes cambiar el color aquí si lo deseas
-                      // backgroundColor: Colors.deepPurple,
+                      backgroundColor: Colors.deepPurple,
                     ),
                     child: Text(
-                      'Regístrate',
-                      style: TextStyle(fontSize: 18),
+                      'Iniciar Sesión',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      
                     ),
                   ),
+                  
+                  //Botón de registrarse
+                  ElevatedButton(
+                    onPressed: () {
+                      print('Botón de "registrarse" presionado');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      // Puedes cambiar el color aquí si lo deseas
+                      //backgroundColor: Colors.deepPurple,
+                    ),
+                    child: Text(
+                      'Registrarse',
+                      style: TextStyle(fontSize: 18),  
+                    ),
+                  ),
+
                 ],
               ),
             ),
