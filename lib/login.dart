@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:core_v001/home.dart';
+import 'package:core_v001/personal_info.dart'; //importa a personal_info
 
 class LoginPage extends StatelessWidget {
   @override
@@ -64,6 +66,14 @@ class LoginPage extends StatelessWidget {
                   // Botón de "iniciar sesion"
                   ElevatedButton(
                     onPressed: () {
+                      //boton que redirige a home
+                      Navigator.push(
+                        context,
+                            MaterialPageRoute(
+                            builder: (context) => const Home(),
+                                              ),
+                                    );
+
                       print('Botón de "iniciar sesion" presionado');
                     },
                     style: ElevatedButton.styleFrom(
@@ -82,6 +92,14 @@ class LoginPage extends StatelessWidget {
                   //Botón de registrarse
                   ElevatedButton(
                     onPressed: () {
+                      //boton para registrarse
+                      Navigator.push(
+                        context,
+                            MaterialPageRoute(
+                            builder: (context) => const PersonalInfoPage(),
+                                              ),
+                                    );
+
                       print('Botón de "registrarse" presionado');
                     },
                     style: ElevatedButton.styleFrom(
@@ -105,3 +123,4 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+// psswrd supabase b4s3c0r3-2025
