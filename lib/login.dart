@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:core_v001/home.dart';
 import 'package:core_v001/personal_info.dart'; //importa a personal_info
+import 'package:core_v001/dashboard/main.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -70,7 +70,7 @@ class LoginPage extends StatelessWidget {
                       Navigator.push(
                         context,
                             MaterialPageRoute(
-                            builder: (context) => const Home(),
+                            builder: (context) => const BuildingAdminApp(),
                                               ),
                                     );
 
