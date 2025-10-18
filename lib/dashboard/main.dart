@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'views/resumen_dashboard_view.dart';
 import 'views/user_management_view.dart'; 
-import 'package:core_v001/dashboard/main.dart';
+// importacion nueva, menu crud, opcion en alpha
+import 'package:core_v001/feature/crud_main.dart'; 
 
 
 void main() {
@@ -39,7 +40,9 @@ enum MenuOption {
   finanzas, 
   consumo, 
   mantenimiento, 
-  usuarios 
+  usuarios,
+  // NUEVA OPCIÓN AÑADIDA
+  gestion // <- opcion para los crud
 }
 
 class DashboardScreen extends StatefulWidget {
@@ -86,7 +89,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildContent() {
     switch (_selectedMenu) {
       case MenuOption.resumen:
-        // Carga la vista de KPI cards (Resumen Ejecutivo)
         return ResumenDashboardView(); 
       case MenuOption.finanzas:
         return const Center(child: Text('Vista de Reportes Financieros', style: TextStyle(fontSize: 30, color: Colors.white)));
@@ -95,8 +97,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case MenuOption.mantenimiento:
         return const Center(child: Text('Vista de Seguimiento de Tickets', style: TextStyle(fontSize: 30, color: Colors.white)));
       case MenuOption.usuarios:
-        // Carga la vista de gestión (Agregar Usuarios, Consultas)
         return UserManagementView(); 
+      // opcion para la redireccion, nuevo codigo
+      case MenuOption.gestion: 
+        return const Center(child: CircularProgressIndicator()); 
     }
   }
 }
@@ -135,18 +139,38 @@ class FixedSidebar extends StatelessWidget {
           ),
           const Divider(color: Colors.white24, height: 1),
           // Botones del Menú
-          _buildMenuItem(MenuOption.resumen, 'Resumen Ejecutivo', Icons.dashboard),
-          _buildMenuItem(MenuOption.finanzas, 'Gestión Financiera', Icons.account_balance_wallet),
-          _buildMenuItem(MenuOption.consumo, 'Monitoreo de Consumos', Icons.offline_bolt),
-          _buildMenuItem(MenuOption.mantenimiento, 'Reportes financieros', Icons.build),
-          _buildMenuItem(MenuOption.usuarios, 'Usuarios y Roles', Icons.people),
+          _buildMenuItem(context, MenuOption.resumen, 'Resumen Ejecutivo', Icons.dashboard),
+          _buildMenuItem(context, MenuOption.finanzas, 'Gestión Financiera', Icons.account_balance_wallet),
+          _buildMenuItem(context, MenuOption.consumo, 'Monitoreo de Consumos', Icons.offline_bolt),
+          _buildMenuItem(context, MenuOption.mantenimiento, 'Reportes financieros', Icons.build),
+          _buildMenuItem(context, MenuOption.usuarios, 'Usuarios y Roles', Icons.people),
+          // nueva opcion para el crud
+          const Divider(color: Colors.white24, height: 1),
+          _buildMenuItem(context, MenuOption.gestion, 'Gestión (CRUD)', Icons.list_alt),
         ],
       ),
     );
   }
 
-  Widget _buildMenuItem(MenuOption option, String title, IconData icon) {
+  // Se modificó para recibir el 'context'
+  Widget _buildMenuItem(BuildContext context, MenuOption option, String title, IconData icon) {
     final bool isSelected = option == selectedMenu;
+
+    // Lógica de Redirección
+    final VoidCallback onTapAction;
+    if (option == MenuOption.gestion) {
+      // Usamos Navigator.push para ir a la nueva pantalla
+      onTapAction = () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const CrudMainScreen(), // Redirige al CrudMainScreen
+          ),
+        );
+      };
+    } else {
+      // Para todas las demás opciones, cambia el contenido del Dashboard
+      onTapAction = () => onMenuSelected(option);
+    }
 
     return ListTile(
       leading: Icon(icon, color: isSelected ? Colors.cyanAccent : Colors.white70),
@@ -157,8 +181,8 @@ class FixedSidebar extends StatelessWidget {
           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         ),
       ),
-      onTap: () => onMenuSelected(option),
-      selected: isSelected,
+      onTap: onTapAction, // Usa la acción condicional
+      selected: isSelected && option != MenuOption.gestion, // Evita marcar 'Gestión' como seleccionado
       selectedTileColor: Colors.white10,
     );
   }
